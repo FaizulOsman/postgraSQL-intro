@@ -344,3 +344,14 @@ SELECT deptID, avgSalary FROM (
 
 
 
+
+-- ################## 31-11 (Views) ##################
+-- Create/Save view for "get month, avg, count from orders"
+CREATE VIEW order_view
+AS
+SELECT TO_CHAR(order_date, 'Month') AS month, AVG(total_amount ), COUNT(*)
+FROM orders
+GROUP BY month;
+
+-- See saved view
+SELECT * FROM order_view;
