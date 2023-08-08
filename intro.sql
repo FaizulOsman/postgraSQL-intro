@@ -378,3 +378,36 @@ AS $$
         SELECT count(*) INTO account_count FROM accounts WHERE accounts.account_type = $1;
     END;
 $$;
+
+
+
+
+-- ################## 31-13 (Triggers) ##################
+CREATE TABLE products (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    base_price FLOAT8 NOT NULL,
+    final_price FLOAT8 
+);
+
+-- Auto trigger when a product insert (update final_price based on base_price) 
+CREATE OR REPLACE FUNCTION update_final_price()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+AS $$
+    BEGIN
+        NEW.final_price := NEW.base_price * 1.5;
+        RETURN NEW;
+    END;
+$$;
+
+CREATE or REPLACE TRIGGER add_tax_trigger
+AFTER 
+INSERT ON products 
+FOR EACH ROW
+EXECUTE FUNCTION update_final_price();
+
+INSERT INTO products(title, base_price) VALUES ('Apple', 60);
+
+SELECT * FROM products;
+
