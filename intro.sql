@@ -401,13 +401,14 @@ AS $$
     END;
 $$;
 
+
 CREATE or REPLACE TRIGGER add_tax_trigger
-AFTER 
+BEFORE 
 INSERT ON products 
 FOR EACH ROW
 EXECUTE FUNCTION update_final_price();
 
-INSERT INTO products(title, base_price) VALUES ('Ball', 6000);
+INSERT INTO products(title, base_price) VALUES ('Cat', 10);
 
 SELECT * FROM products;
 
