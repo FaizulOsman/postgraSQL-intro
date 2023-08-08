@@ -413,9 +413,35 @@ INSERT INTO products(title, base_price) VALUES ('Cat', 10);
 SELECT * FROM products;
 
 
--- ################## 31-14 (Indexing and Optimization) ##################
+-- ################## 31-14 (Indexing and Optimization - Fast Data Load ) ##################
+CREATE TABLE IF NOT EXISTS employees (
+    empID SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    salary INTEGER NOT NULL,
+    joining_date DATE NOT NULL,
+    deptID INTEGER NOT NULL,
+    CONSTRAINT fk_deptID
+        FOREIGN KEY(deptID)
+        REFERENCES departments(deptID)
+);
+
+INSERT INTO employees (name, email, salary, joining_date, deptID)
+SELECT
+    'Employee ' || (empID + 1) AS name,
+    'employee' || (empID + 1) || '@company.com' AS email,
+    FLOOR(RANDOM() * 80000) + 20000 AS salary,
+    DATE '2020-01-01' + (FLOOR(RANDOM() * 1000)) * INTERVAL '1 day' AS joining_date,
+    FLOOR(RANDOM() * 10) + 1 AS deptID
+FROM generate_series(0, 100000) AS empID;
+
+
 EXPLAIN ANALYZE SELECT empID FROM employees;
 
 CREATE INDEX name_idx ON Employees(name);
 
 EXPLAIN ANALYZE SELECT empID, name, email FROM employees WHERE name = 'Layla Cooper';
+
+select * from employees;
+
+
