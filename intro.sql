@@ -355,3 +355,26 @@ GROUP BY month;
 
 -- See saved view
 SELECT * FROM order_view;
+
+
+
+-- ################## 31-12 (SQL/plpgsql PROCEDURE/Function) ##################
+-- SQL PROCEDURE
+CREATE PROCEDURE deactivate_unpaid_account()
+LANGUAGE SQL
+AS $$
+    UPDATE accounts SET status = 'Inactive' WHERE balance = 0;
+$$;
+
+CALL deactivate_unpaid_account();
+
+
+-- plpgsql FUNCTION
+CREATE PROCEDURE account_type_count(account_type test) RETURNS INTEGER
+LANGUAGE plpgsql
+AS $$
+    DECLARE account_count INT;
+    BEGIN
+        SELECT count(*) INTO account_count FROM accounts WHERE accounts.account_type = $1;
+    END;
+$$;
