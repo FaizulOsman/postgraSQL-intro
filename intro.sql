@@ -156,3 +156,31 @@ INNER JOIN department ON department.department_id = employee.department_id;
 
 
 
+-- ################## 31-7 (Different Types of Join) ##################
+-- Left Join (Left table priority)
+SELECT *
+FROM employee
+LEFT JOIN department ON department.department_id = employee.department_id;
+
+-- Right Join (Right table priority)
+SELECT *
+FROM employee
+RIGHT JOIN department ON department.department_id = employee.department_id;
+
+-- Full Join (Left/Right both table priority)
+SELECT *
+FROM employee
+FULL JOIN department ON department.department_id = employee.department_id;
+
+-- Natural Join
+SELECT *
+FROM employee
+NATURAL JOIN department;
+
+-- Cross Join (6*15=90 output)
+SELECT *
+FROM employee
+CROSS JOIN department;
+
+
+
