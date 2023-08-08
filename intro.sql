@@ -407,7 +407,14 @@ INSERT ON products
 FOR EACH ROW
 EXECUTE FUNCTION update_final_price();
 
-INSERT INTO products(title, base_price) VALUES ('Apple', 60);
+INSERT INTO products(title, base_price) VALUES ('Ball', 6000);
 
 SELECT * FROM products;
 
+
+-- ################## 31-14 (Indexing and Optimization) ##################
+EXPLAIN ANALYZE SELECT empID FROM employees;
+
+CREATE INDEX name_idx ON Employees(name);
+
+EXPLAIN ANALYZE SELECT empID, name, email FROM employees WHERE name = 'Layla Cooper';
