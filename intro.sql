@@ -184,3 +184,27 @@ CROSS JOIN department;
 
 
 
+-- ################## 31-8 (Aggregate Function) ##################
+
+-- Get Average/Min/Max of a column
+SELECT AVG(salary) FROM employees;
+SELECT MIN(salary) as Minimum FROM employees;
+SELECT MAX(salary) as Maximum FROM employees;
+SELECT SUM(salary) as Sum FROM employees;
+
+
+-- Show Average of every data by deptID
+SELECT deptID, AVG(salary) FROM employees GROUP BY deptID;
+
+-- Show deptID, deptName, sum, count and Average of every data by deptID
+SELECT d.name, AVG(e.salary), SUM(e.salary), COUNT(*) from employees AS e
+FULL JOIN departments AS d on e.deptID = d.deptID
+GROUP BY d.name;
+
+-- Filtering in GROUP BY (Using HAVING)
+SELECT d.name, AVG(e.salary), SUM(e.salary), COUNT(*) from employees AS e
+FULL JOIN departments AS d on e.deptID = d.deptID
+GROUP BY d.name HAVING AVG(e.salary) > 60000;
+
+
+
