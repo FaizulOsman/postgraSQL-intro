@@ -322,3 +322,25 @@ GROUP BY month;
 
 
 
+-- ################## 31-10 (Sub Queries) ##################
+SELECT * FROM employees WHERE salary IN (
+    SELECT salary from employees WHERE name LIKE '%a%'
+);
+
+-- Retrieve data where (salary > avg(salary))
+SELECT * FROM employees WHERE salary > (
+    SELECT AVG(salary) FROM employees
+);
+
+-- Show avg salary for every email
+SELECT email, (
+    SELECT AVG(salary) FROM employees
+) FROM employees;
+
+-- Get avg salary and deptID
+SELECT deptID, avgSalary FROM (
+    SELECT deptID, AVG(salary) AS avgSalary FROM employees GROUP BY deptID
+) AS tempTables;
+
+
+
