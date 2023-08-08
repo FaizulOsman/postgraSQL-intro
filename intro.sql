@@ -134,3 +134,25 @@ SELECT * FROM employees WHERE deptID IS null;
 
 
 
+-- ################## 31-6 (Inner Join - Get a table from multiple table) ##################
+CREATE TABLE department(
+    department_id SERIAL PRIMARY KEY,
+    department_name VARCHAR(100)
+);
+
+CREATE TABLE employee(
+    employee_id SERIAL PRIMARY KEY,
+    full_name VARCHAR(100),
+    department_id INT,
+    job_role VARCHAR(100),
+    manager_id INT,
+    FOREIGN KEY (department_id) REFERENCES department(department_id)
+);
+
+-- Inner Join (Left-Right both table matter)
+SELECT *
+FROM employee
+INNER JOIN department ON department.department_id = employee.department_id;
+
+
+
