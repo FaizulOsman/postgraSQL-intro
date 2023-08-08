@@ -208,3 +208,117 @@ GROUP BY d.name HAVING AVG(e.salary) > 60000;
 
 
 
+-- ################## 31-9 (Practice) ##################
+
+-- TASK 3: Now Write a SQL Query to retrieve the student name course name, and credits for all enrolled courses.
+CREATE TABLE students (
+    student_id INT PRIMARY KEY,
+    student_name VARCHAR(50),
+    age INT,
+    gender VARCHAR(50)
+);
+
+CREATE TABLE courses (
+    course_id INT PRIMARY KEY,
+    course_name VARCHAR(50),
+    credits INT
+);
+
+CREATE TABLE enrollment (
+    enrollment_id INT PRIMARY KEY,
+    student_id INT,
+    course_id INT
+);
+
+INSERT INTO students (student_id, student_name, age, gender) VALUES
+    (1, 'John Doe', 20, 'Male'),
+    (2, 'Jane Smith', 22, 'Female'),
+    (3, 'Michael Johnson', 21, 'Male');
+
+INSERT INTO courses (course_id, course_name, credits) VALUES
+    (101, 'Mathematics', 3),
+    (102, 'Computer Science', 4),
+    (103, 'History', 3);
+
+INSERT INTO enrollment (enrollment_id, student_id, course_id) VALUES
+    (1, 1, 101),  -- John Doe enrolled in Mathematics
+    (2, 1, 102),  -- John Doe enrolled in Computer Science
+    (3, 2, 101),  -- Jane Smith enrolled in Mathematics
+    (4, 3, 103);  -- Michael Johnson enrolled in History
+
+
+-- SOLUTION:
+SELECT s.student_name, c.course_name, c.credits
+FROM students AS s
+JOIN enrollment AS e ON s.student_id = e.student_id
+JOIN courses AS c ON e.course_id = c.course_id;
+
+
+
+-- TASK 4: Write an SQL query to retrieve the department name and the average salary of employees working in each department. Sort the result by the average salary in descending order.
+CREATE TABLE employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(50),
+    department_id INT
+);
+
+CREATE TABLE departments (
+    department_id INT PRIMARY KEY,
+    department_name VARCHAR(50)
+);
+
+CREATE TABLE salaries (
+    emp_id INT,
+    salary DECIMAL(10, 2)
+);
+
+INSERT INTO employees (emp_id, emp_name, department_id) VALUES
+    (1, 'John Doe', 101),
+    (2, 'Jane Smith', 102),
+    (3, 'Michael Johnson', 103),
+    (4, 'Emily Williams', 101);
+
+INSERT INTO departments (department_id, department_name) VALUES
+    (101, 'Marketing'),
+    (102, 'Finance'),
+    (103, 'Engineering');
+
+INSERT INTO salaries (emp_id, salary) VALUES
+    (1, 55000.00),
+    (2, 62000.50),
+    (3, 71000.75),
+    (4, 59000.25);
+
+-- SOLUTION:
+SELECT d.department_name, AVG(s.salary)
+FROM departments AS d
+JOIN employees AS e ON e.department_id = d.department_id
+JOIN salaries AS s ON s.emp_id = e.emp_id
+GROUP BY d.department_name
+ORDER BY avg(salary) DESC;
+
+
+
+
+-- TASK 5: Write an SQL query to find the total sales amount for each month along with the number of orders in that month
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    order_date DATE,
+    total_amount DECIMAL(10, 2)
+);
+
+INSERT INTO orders (order_id, customer_id, order_date, total_amount) VALUES
+    (101, 101, '2023-01-01', 250.00),
+    (102, 2, '2023-01-02', 185.00),
+    (103, 1, '2023-02-03', 500.00),
+    (104, 3, '2023-02-04', 1200.00),
+    (105, 2, '2023-03-05', 99.00);
+
+-- SOLUTION:
+SELECT TO_CHAR(order_date, 'Month') AS month, AVG(total_amount ), COUNT(*)
+FROM orders
+GROUP BY month;
+
+
+
